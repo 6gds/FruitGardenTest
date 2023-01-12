@@ -32,10 +32,10 @@ class Garden
         $countTrees= [];
 
         foreach ($this->trees as $tree) {
-            if (!isset($counttrees[get_class($tree)])) {
-                $countTrees[get_class($tree)] = 1;
+            if (!isset($countTrees[$tree->getNameTree()])) {
+                $countTrees[$tree->getNameTree()] = 1;
             } else {
-                $countTrees[get_class($tree)] += 1;
+                $countTrees[$tree->getNameTree()] += 1;
             }
         }
 
@@ -58,6 +58,23 @@ class Garden
         return $countedFruits;
     }
 
+    public function getWeightFruits(): array
+    {
+        $weightFruits = [];
+
+        foreach ($this->collectedFruits as $nameFruit => $fruits) {
+            foreach ($fruits as $fruit) {
+                if (!array_key_exists($nameFruit, $weightFruits)) {
+                    $weightFruits[$nameFruit] = $fruit->getWeight();
+                } else {
+                    $weightFruits[$nameFruit] += $fruit->getWeight();
+                }
+            }
+        }
+
+        return $weightFruits;
+    }
+
     public function getCollectedFruits(): array
     {
         return $this->collectedFruits;
@@ -72,7 +89,7 @@ class Garden
                 $nameFruit = $fruits[0]->getNameFruit();
 
                 $this->collectedFruits[$nameFruit] = array_merge(
-                    $this->fruits[$nameFruit] ?? [],
+                    $this->collectedFruits[$nameFruit] ?? [],
                     $fruits
                 );
             }
@@ -81,7 +98,7 @@ class Garden
 
     public function outInfoAboutTrees(): void
     {
-        $countTrees= $this->getCountTrees();
+        $countTrees = $this->getCountTrees();
 
         foreach ($countTrees as $nameTree => $countTree) {
             echo $nameTree . " - " . $countTree;
@@ -101,18 +118,7 @@ class Garden
 
     public function outInfoAboutWeightFruits(): void
     {
-        $weightFruits = [];
-
-        foreach ($this->collectedFruits as $nameFruit => $fruits) {
-            foreach ($fruits as $fruit) {
-                if (!array_key_exists($nameFruit, $weightFruits)) {
-                    $weightFruits[$nameFruit] = $fruit->getWeight();
-                } else {
-                    $weightFruits[$nameFruit] += $fruit->getWeight();
-                }
-
-            }
-        }
+        $weightFruits = $this->getWeightFruits();
 
         foreach ($weightFruits as $nameFruit => $weight) {
             echo $nameFruit . " - " . $weight . " гр";

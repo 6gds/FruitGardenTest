@@ -49,4 +49,16 @@ abstract class Tree
 
         return $harvest;
     }
+
+
+    public function getNameTree(): string
+    {
+        $classname = get_class($this);
+
+        if (preg_match('@\\\\([\w]+)$@', $classname, $matches)) {
+            $classname = $matches[1];
+        }
+
+        return $classname;
+    }
 }

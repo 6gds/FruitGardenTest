@@ -23,5 +23,6 @@ $garden = new Garden();
 addTreesToGarden($garden, 10, 15);
 
 $garden->collectFruits();
+$garden->outInfoAboutTrees();
 $garden->outInfoAboutCountFruits();
 $garden->outInfoAboutWeightFruits();
